@@ -3,6 +3,7 @@ package club.moddedminecraft;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -58,7 +59,8 @@ public class InsaneSaneShutdown
 
     @EventHandler
     public void onServerStopping(final FMLServerStoppingEvent event) {
-        new Thread(() -> {            
+        new Thread(() -> {    
+            Runtime runtime = Runtime.getRuntime(); 
             try {
                 infoLogger.accept("Shutdown hook received. Waiting 20 seconds...");
                 Thread.sleep(20000); //20 seconds for everything to stop
@@ -69,11 +71,12 @@ public class InsaneSaneShutdown
                     errorLogger.accept("Error writing trace!");
                     e.printStackTrace();
                 }
-                System.exit(0);
-            } catch (final InterruptedException ignored) {
+                int pid = Integer.parseInt(new File("/proc/self").getCanonicalFile().getName());       
+                runtime.exec("kill -9 " + pid); //unix only but forge fucks with me too much to care at this point
+                
+            } catch (final InterruptedException | SecurityException | IllegalArgumentException | IOException ignored) {
             }
-            System.exit(0);
-
+            
         }).start();
     }
 
@@ -101,6 +104,6 @@ public class InsaneSaneShutdown
         writer.write(builder.toString());
         writer.close();
     }
-    
+       
 
 }
