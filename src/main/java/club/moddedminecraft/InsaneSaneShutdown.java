@@ -62,14 +62,15 @@ public class InsaneSaneShutdown
             try {
                 infoLogger.accept("Shutdown hook received. Waiting 20 seconds...");
                 Thread.sleep(20000); //20 seconds for everything to stop
+                errorLogger.accept("Server has not shutdown after 20 seconds! Will dump a stacktrace then exit...");
+                try {
+                    dumpToFile();
+                } catch (final IOException e) {
+                    errorLogger.accept("Error writing trace!");
+                    e.printStackTrace();
+                }
+                System.exit(0);
             } catch (final InterruptedException ignored) {
-            }
-            errorLogger.accept("Server has not shutdown after 20 seconds! Will dump a stacktrace then exit...");
-            try {
-                dumpToFile();
-            } catch (final IOException e) {
-                errorLogger.accept("Error writing trace!");
-                e.printStackTrace();
             }
             System.exit(0);
 
