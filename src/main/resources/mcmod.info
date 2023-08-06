@@ -1,0 +1,15 @@
+[
+{
+  "modid": "insanesaneshutdown",
+  "name": "InsaneSane Shutdown",
+  "description": "Kills the server and dumps stacktraces if the server fails to exit 20s after a scheduled shutdown.",
+  "version": "1.0 ",
+  "url": "https://github.com/ModdedMinecraftClub/insane-sane-shutdown/",
+  "updateUrl": "",
+  "authorList": ["MommyHeather"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
